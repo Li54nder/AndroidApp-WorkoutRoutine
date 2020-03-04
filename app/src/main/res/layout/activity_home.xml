@@ -94,7 +94,7 @@
         app:layout_constraintTop_toBottomOf="@+id/divider2" />
 
     <TextView
-        android:id="@+id/lblLevel"
+        android:id="@+id/lblDay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Begginer"
@@ -153,7 +153,7 @@
         android:textColor="@color/colorWhite"
         android:textSize="20sp"
         app:fontFamily="sans-serif-light"
-        app:layout_constraintEnd_toEndOf="@+id/lblLevel"
+        app:layout_constraintEnd_toEndOf="@+id/lblDay"
         app:layout_constraintTop_toTopOf="@+id/textView11" />
 
     <Button
@@ -192,17 +192,18 @@
         android:layout_marginTop="32dp"
         android:layout_marginBottom="32dp"
         android:background="@drawable/button_solid"
+        android:onClick="openWorkoutPlan"
         android:text="Workout Plan"
         android:textAllCaps="false"
         android:textColor="@color/colorBlack"
         android:textSize="20sp"
-        app:layout_constraintHeight_max="100dp"
         app:fontFamily="sans-serif-light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/btnChooseTime"
+        app:layout_constraintHeight_max="100dp"
         app:layout_constraintStart_toStartOf="@+id/btnChooseTime"
         app:layout_constraintTop_toBottomOf="@+id/divider4"
-        android:onClick="openWorkoutPlan"/>
+        app:layout_constraintVertical_bias="1.0" />
 
 
 

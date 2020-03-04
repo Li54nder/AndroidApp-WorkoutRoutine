@@ -60,7 +60,7 @@
         app:layout_constraintTop_toBottomOf="@+id/divider1" />
 
     <TextView
-        android:id="@+id/lblLevel"
+        android:id="@+id/lblDay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"

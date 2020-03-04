@@ -38,7 +38,7 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
         Animation a4 = AnimationUtils.loadAnimation(this, R.anim.show_4);
         Button btnChooseLvl = findViewById(R.id.btnChooseLvl);
         Button btnChooseTime = findViewById(R.id.btnChooseTime);
-        lblLevel = findViewById(R.id.lblLevel);
+        lblLevel = findViewById(R.id.lblDay);
 
         findViewById(R.id.divider1).setAnimation(a1);
         findViewById(R.id.divider2).setAnimation(a1);
@@ -125,6 +125,7 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
 
     public void openWorkoutPlan(View v) {
         Intent intent = new Intent(this, WorkoutPlanActivity.class);
+        intent.putExtra("level", level);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
