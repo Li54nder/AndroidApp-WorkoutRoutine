@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,26 +28,15 @@ public class WorkoutPlanActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_workout_plan);
 
-        setSelectedDay();
-
         Intent intent = getIntent();
         level = intent.getStringExtra("level");
 
+        setSelectedDay();
         setImage();
     }
 
-    public void goBack(View v) {
-        finish();
-    }
-
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-
-    }
-
     public void showDayChooser(View v) {
+        buttonTouchEffect(v);
         AlertDialog.Builder builder = new AlertDialog.Builder(WorkoutPlanActivity.this);
 
         LayoutInflater inflater = getLayoutInflater();
@@ -71,7 +62,7 @@ public class WorkoutPlanActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     dialog.dismiss();
                     String tmp = (String) day.getText();
-                    ((TextView)findViewById(R.id.lblStopwatch)).setText(tmp);
+                    ((TextView)findViewById(R.id.lblLevel)).setText(tmp);
                     switch (tmp) {
                         case "Monday":
                             selectedDay = "_1";
@@ -103,11 +94,34 @@ public class WorkoutPlanActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    public void openWorkout(View v) {
+        buttonTouchEffect(v);
+        Intent intent = new Intent(this, WorkoutActivity.class);
+        intent.putExtra("imgLabel", imgLabel);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
+    public void goBack(View v) {
+        finish();
+    }
+
+    public void buttonTouchEffect(View v) {
+        AnimationSet set = new AnimationSet(false);
+        set.addAnimation(AnimationUtils.loadAnimation(this, R.anim.click_anim_scale));
+        set.addAnimation(AnimationUtils.loadAnimation(this, R.anim.click_anim_alpha));
+        v.startAnimation(set);
+
+    }
+
+
+
+
     private void setSelectedDay() {
         Calendar c = Calendar.getInstance();
         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
         selectedDay = "_"+(dayOfWeek-1);
-        TextView lblDay = (TextView) findViewById(R.id.lblStopwatch);
+        TextView lblDay = (TextView) findViewById(R.id.lblLevel);
         switch (dayOfWeek) {
             case 1:
                 lblDay.setText("Sunday");
@@ -138,10 +152,12 @@ public class WorkoutPlanActivity extends AppCompatActivity {
         ((ImageView)findViewById(R.id.myZoomageView)).setImageResource(getApplicationContext().getResources().getIdentifier("drawable/"+imgLabel, null, this.getPackageName()));
     }
 
-    public void openWorkout(View v) {
-        Intent intent = new Intent(this, WorkoutActivity.class);
-        intent.putExtra("imgLabel", imgLabel);
-        startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+
     }
 }

@@ -60,7 +60,7 @@
         app:layout_constraintTop_toBottomOf="@+id/divider1" />
 
     <TextView
-        android:id="@+id/lblStopwatch"
+        android:id="@+id/lblDay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
@@ -74,7 +74,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
-        android:id="@+id/btnStopwatch"
+        android:id="@+id/btnDayChooser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -101,7 +101,7 @@
         android:background="@drawable/button_stroke"
         app:layout_constraintEnd_toEndOf="@+id/divider1"
         app:layout_constraintStart_toStartOf="@+id/divider1"
-        app:layout_constraintTop_toBottomOf="@+id/btnStopwatch" />
+        app:layout_constraintTop_toBottomOf="@+id/btnDayChooser" />
 
     <com.jsibbold.zoomage.ZoomageView
         android:id="@+id/myZoomageView"
@@ -114,7 +114,7 @@
         android:layout_marginRight="24dp"
         android:layout_marginBottom="24dp"
         android:src="@drawable/routine_1_1"
-        app:layout_constraintBottom_toTopOf="@+id/btnWorkoutPlan"
+        app:layout_constraintBottom_toTopOf="@+id/btnWorkout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider3"
@@ -128,7 +128,7 @@
         app:zoomage_zoomable="true" />
 
     <Button
-        android:id="@+id/btnWorkoutPlan"
+        android:id="@+id/btnWorkout"
         android:layout_width="0dp"
         android:layout_height="100dp"
         android:layout_marginStart="24dp"

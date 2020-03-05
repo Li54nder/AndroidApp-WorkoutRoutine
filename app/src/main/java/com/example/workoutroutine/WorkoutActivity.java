@@ -3,26 +3,26 @@ package com.example.workoutroutine;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Calendar;
-import java.util.concurrent.atomic.AtomicBoolean;
-
 public class WorkoutActivity extends AppCompatActivity {
 
-    private String imgLabel;
     private TextView lblMilisec;
     private Thread milisecThread;
-    private Chronometer chronometer;
+
+    private String imgLabel;
+
+    private Chronometer lblStopwatch;
     private Button btnStopwatch;
 
     private boolean workoutStarted = false;
@@ -38,29 +38,64 @@ public class WorkoutActivity extends AppCompatActivity {
         Intent intent = getIntent();
         imgLabel = intent.getStringExtra("imgLabel");
 
-        ((ImageView)findViewById(R.id.myZoomageView)).setImageResource(getApplicationContext().getResources().getIdentifier("drawable/"+imgLabel, null, this.getPackageName()));
+        initialisation();
+        setImage();
+    }
 
-        lblMilisec = findViewById(R.id.lblMilisec);
-        btnStopwatch = findViewById(R.id.btnStopwatch);
-        chronometer = findViewById(R.id.lblStopwatch);
-        chronometer.setFormat("%s");
+    private void initialisation() {
+        lblMilisec = findViewById(R.id.lblMilisec); //NEVER USED!!!
+        btnStopwatch = findViewById(R.id.btnLvlChooser);
+        lblStopwatch = findViewById(R.id.lblStopwatch);
+        lblStopwatch.setFormat("%s");
+    }
+
+    private void setImage() {
+        ((ImageView)findViewById(R.id.myZoomageView)).setImageResource(getApplicationContext().getResources().getIdentifier("drawable/"+imgLabel, null, this.getPackageName()));
+    }
+
+
+
+    public void startWorkout(View v) {
+        buttonTouchEffect(v);
+        workoutStarted = true;
+        if(loopCounter < 1) //LIMIT HARD CODED !!!
+            ((Button)v).setText("Next Cycle \n (cycle: "+(++loopCounter)+")");
+        else if(loopCounter == 1)
+            ((Button) v).setText("Finish \n (cycle: " + (++loopCounter) + ")");
+        else {
+            ((Button) v).setBackgroundResource(R.drawable.button_solid_green);
+            finish();
+        }
+    }
+
+    public void giveUp(View v) {
+        buttonTouchEffect(v);
+        ((Button) v).setBackgroundResource(R.drawable.button_solid_red);
+        finish();
     }
 
     public void goBack(View v) {
         finish();
     }
 
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    public void buttonTouchEffect(View v) {
+        AnimationSet set = new AnimationSet(false);
+        set.addAnimation(AnimationUtils.loadAnimation(this, R.anim.click_anim_scale));
+        set.addAnimation(AnimationUtils.loadAnimation(this, R.anim.click_anim_alpha));
+        v.startAnimation(set);
+
     }
 
 
+
+    //**********************
+    //STOPWATCH Process start
     private boolean running;
     private long pauseOffset;
-    int br = 0;
+    int br = 0; //start or pause stopwatch
+
     public void btnStopwatch(View v) {
+        buttonTouchEffect(v);
         if(!workoutStarted) {
             Toast.makeText(getApplicationContext(), "You must start training first!", Toast.LENGTH_SHORT).show();
             return;
@@ -73,91 +108,38 @@ public class WorkoutActivity extends AppCompatActivity {
             btnStopwatch.setText("Resume Stopwatch");
         }
     }
-//    class Brojac {
-//        int i;
-//        Brojac() {
-//            i = 0;
-//        }
-//    }
-//    private Object a = new Object();
-//    private AtomicBoolean go = new AtomicBoolean(false);
     private void startStopwatch() {
-//        synchronized (a) {
-//            go.set(true);
-//        }
         if (!running) {
-            chronometer.setBase(SystemClock.elapsedRealtime() - pauseOffset);
-            chronometer.start();
+            lblStopwatch.setBase(SystemClock.elapsedRealtime() - pauseOffset);
+            lblStopwatch.start();
             running = true;
-//            milisecThread = new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    String mils[] = {".05", ".10", ".15", ".20", ".25", ".30", ".35", ".40", ".45", ".50", ".55", ".00"};
-//                    Brojac br = new Brojac();
-//                    while(go.get()) {
-//                        try {
-//                            runOnUiThread(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    lblMilisec.setText(mils[br.i]);
-//                                }
-//                            });
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-//                        br.i = (br.i + 1) % 12;
-//                    }
-//                }
-//            });
-//            milisecThread.start();
         }
     }
-
     private void pauseStopwatch() {
         if (running) {
-            chronometer.stop();
-            pauseOffset = SystemClock.elapsedRealtime() - chronometer.getBase();
+            lblStopwatch.stop();
+            pauseOffset = SystemClock.elapsedRealtime() - lblStopwatch.getBase();
             running = false;
-//            synchronized (a) {
-//                go.set(false);
-//            }
         }
     }
 
     public void resetStopwatch(View v) {
+        buttonTouchEffect(v);
         btnStopwatch.setText("Start Stopwatch");
-        chronometer.setBase(SystemClock.elapsedRealtime());
-        chronometer.stop();
+        lblStopwatch.setBase(SystemClock.elapsedRealtime());
+        lblStopwatch.stop();
         pauseOffset = 0;
         running = false;
     }
+    //STOPWATCH Process end
+    //**********************
 
-    public void startWorkout(View v) {
-        workoutStarted = true;
-        if(loopCounter < 1) //LIMIT HARD CODED !!!
-            ((Button)v).setText("Next Cycle \n (cycle: "+(++loopCounter)+")");
-        else if(loopCounter == 1)
-            ((Button) v).setText("Finish \n (cycle: " + (++loopCounter) + ")");
-        else {
-            findViewById(R.id.workoutBackground).setBackgroundColor(Color.GREEN);
-            finish();
-        }
+
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
-    public void giveUp(View v) {
-        findViewById(R.id.workoutBackground).setBackgroundColor(Color.RED);
-//
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    Thread.sleep(500);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//                WorkoutActivity.this.finish();
-//            }
-//        }).start();
-        finish();
-    }
 }

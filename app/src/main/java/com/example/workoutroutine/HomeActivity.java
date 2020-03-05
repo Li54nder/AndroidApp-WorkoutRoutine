@@ -11,8 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -37,49 +37,53 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_home);
 
+        initialisation();
+        animation();
 //        getQuoteOfDay(); // call from QUOTE button
+    }
 
+    private void initialisation() {
+        lblLevel = findViewById(R.id.lblLevel);
+    }
+
+    private void animation() {
+        //Animations for showing
         Animation a1 = AnimationUtils.loadAnimation(this, R.anim.show_1);
         Animation a2 = AnimationUtils.loadAnimation(this, R.anim.show_2);
         Animation a3 = AnimationUtils.loadAnimation(this, R.anim.show_3);
         Animation a4 = AnimationUtils.loadAnimation(this, R.anim.show_4);
-        Button btnChooseLvl = findViewById(R.id.btnStopwatch);
-        Button btnChooseTime = findViewById(R.id.btnChooseTime);
-        lblLevel = findViewById(R.id.lblStopwatch);
-
+        //first showing
         findViewById(R.id.divider1).setAnimation(a1);
         findViewById(R.id.divider2).setAnimation(a1);
         findViewById(R.id.textView3).setAnimation(a1);
         findViewById(R.id.lblStepCounter).setAnimation(a1);
-
+        //second showing
         findViewById(R.id.divider3).setAnimation(a2);
         findViewById(R.id.textView5).setAnimation(a2);
-        lblLevel.setAnimation(a2);
-        btnChooseLvl.setAnimation(a2);
-        btnChooseLvl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showLevelChooser(v);
-            }
-        });
-
+        findViewById(R.id.lblLevel).setAnimation(a2);
+        findViewById(R.id.btnLvlChooser).setAnimation(a2);
+        //third showing
         findViewById(R.id.divider4).setAnimation(a3);
         findViewById(R.id.lblTime).setAnimation(a3);
         findViewById(R.id.textView11).setAnimation(a3);
-        findViewById(R.id.btnChooseTime).setAnimation(a3);
-
+        findViewById(R.id.btnTimeChooser).setAnimation(a3);
         findViewById(R.id.btnWorkoutPlan).setAnimation(a4);
-
-        btnChooseTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment timePicker = new TimePickerFragment();
-                timePicker.show(getSupportFragmentManager(), "time picker");
-            }
-        });
     }
 
-    private void showLevelChooser(View v) {
+
+
+    public void translateClick(View v) {
+        buttonTouchEffect(v);
+        //TODO:...
+    }
+
+    public void quoteClick(View v) {
+        buttonTouchEffect(v);
+        //TODO:...
+    }
+
+    public void lvlChooserClick(View v) {
+        buttonTouchEffect(v);
         AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
 
         LayoutInflater inflater = getLayoutInflater();
@@ -124,18 +128,29 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
         dialog.show();
     }
 
-    @Override
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        TextView lblTime = findViewById(R.id.lblTime);
-        lblTime.setText((hourOfDay<10? "0"+hourOfDay : hourOfDay) + ":" + (minute<10? "0"+minute : minute));
+    public void timeChooserClick(View v) {
+        buttonTouchEffect(v);
+        DialogFragment timePicker = new TimePickerFragment();
+        timePicker.show(getSupportFragmentManager(), "time picker");
     }
 
     public void openWorkoutPlan(View v) {
+        buttonTouchEffect(v);
         Intent intent = new Intent(this, WorkoutPlanActivity.class);
         intent.putExtra("level", level);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
+
+    private void buttonTouchEffect(View v) {
+        AnimationSet set = new AnimationSet(false);
+        set.addAnimation(AnimationUtils.loadAnimation(this, R.anim.click_anim_scale));
+        set.addAnimation(AnimationUtils.loadAnimation(this, R.anim.click_anim_alpha));
+        v.startAnimation(set);
+
+    }
+
+
 
     private void getQuoteOfDay() {
         try {
@@ -154,8 +169,14 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
             }
             conn.disconnect();
         } catch (Exception e) {
-            // getOnePreDefined
+            // getSomePreDefinedQuotes
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        TextView lblTime = findViewById(R.id.lblTime);
+        lblTime.setText((hourOfDay<10? "0"+hourOfDay : hourOfDay) + ":" + (minute<10? "0"+minute : minute));
     }
 }

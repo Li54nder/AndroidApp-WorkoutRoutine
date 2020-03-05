@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo_450" />
+        app:srcCompat="@drawable/logo_450"/>
 
     <TextView
         android:id="@+id/textView9"
@@ -95,7 +95,7 @@
         app:layout_constraintTop_toBottomOf="@+id/divider2" />
 
     <TextView
-        android:id="@+id/lblStopwatch"
+        android:id="@+id/lblLevel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Begginer"
@@ -107,7 +107,7 @@
         app:layout_constraintEnd_toEndOf="@+id/lblStepCounter" />
 
     <Button
-        android:id="@+id/btnStopwatch"
+        android:id="@+id/btnLvlChooser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -123,7 +123,9 @@
         app:fontFamily="sans-serif-light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+
+        android:onClick="lvlChooserClick"/>
 
     <View
         android:id="@+id/divider3"
@@ -133,7 +135,7 @@
         android:background="@drawable/button_stroke"
         app:layout_constraintEnd_toEndOf="@+id/divider2"
         app:layout_constraintStart_toStartOf="@+id/divider2"
-        app:layout_constraintTop_toBottomOf="@+id/btnStopwatch" />
+        app:layout_constraintTop_toBottomOf="@+id/btnLvlChooser" />
 
     <TextView
         android:id="@+id/textView11"
@@ -156,11 +158,11 @@
         android:textAllCaps="true"
         android:textSize="20sp"
         app:fontFamily="sans-serif-light"
-        app:layout_constraintEnd_toEndOf="@+id/lblStopwatch"
+        app:layout_constraintEnd_toEndOf="@+id/lblLevel"
         app:layout_constraintTop_toTopOf="@+id/textView11" />
 
     <Button
-        android:id="@+id/btnChooseTime"
+        android:id="@+id/btnTimeChooser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -176,7 +178,9 @@
         app:fontFamily="sans-serif-light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+        app:layout_constraintTop_toBottomOf="@+id/textView11"
+
+        android:onClick="timeChooserClick"/>
 
     <View
         android:id="@+id/divider4"
@@ -186,7 +190,7 @@
         android:background="@drawable/button_stroke"
         app:layout_constraintEnd_toEndOf="@+id/divider3"
         app:layout_constraintStart_toStartOf="@+id/divider3"
-        app:layout_constraintTop_toBottomOf="@+id/btnChooseTime" />
+        app:layout_constraintTop_toBottomOf="@+id/btnTimeChooser" />
 
     <Button
         android:id="@+id/btnWorkoutPlan"
@@ -195,38 +199,43 @@
         android:layout_marginTop="32dp"
         android:layout_marginBottom="32dp"
         android:background="@drawable/button_solid"
-        android:onClick="openWorkoutPlan"
         android:text="Workout Plan"
         android:textAllCaps="false"
         android:textColor="@color/colorBlack"
         android:textSize="20sp"
         app:fontFamily="sans-serif-light"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/btnChooseTime"
+        app:layout_constraintEnd_toEndOf="@+id/btnTimeChooser"
         app:layout_constraintHeight_max="100dp"
-        app:layout_constraintStart_toStartOf="@+id/btnChooseTime"
+        app:layout_constraintStart_toStartOf="@+id/btnTimeChooser"
         app:layout_constraintTop_toBottomOf="@+id/divider4"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0"
+
+        android:onClick="openWorkoutPlan"/>
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/btnQuote"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView2"
-        app:srcCompat="@drawable/quote" />
+        app:srcCompat="@drawable/quote"
+
+        android:onClick="quoteClick"/>
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/btnTranslate"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView2"
-        app:srcCompat="@drawable/lang" />
+        app:srcCompat="@drawable/lang"
+
+        android:onClick="translateClick"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
