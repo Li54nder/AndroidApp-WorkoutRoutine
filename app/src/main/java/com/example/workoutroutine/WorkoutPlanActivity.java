@@ -4,14 +4,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -53,7 +51,7 @@ public class WorkoutPlanActivity extends AppCompatActivity {
         LayoutInflater inflater = getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.custom_alert_dialog_day, null);
 
-        builder.setCancelable(false);
+        builder.setCancelable(true);
         builder.setView(dialogView);
 
         TextView[] days = { dialogView.findViewById(R.id.lblMonday),
@@ -73,7 +71,7 @@ public class WorkoutPlanActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     dialog.dismiss();
                     String tmp = (String) day.getText();
-                    ((TextView)findViewById(R.id.lblDay)).setText(tmp);
+                    ((TextView)findViewById(R.id.lblStopwatch)).setText(tmp);
                     switch (tmp) {
                         case "Monday":
                             selectedDay = "_1";
@@ -109,7 +107,7 @@ public class WorkoutPlanActivity extends AppCompatActivity {
         Calendar c = Calendar.getInstance();
         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
         selectedDay = "_"+(dayOfWeek-1);
-        TextView lblDay = (TextView) findViewById(R.id.lblDay);
+        TextView lblDay = (TextView) findViewById(R.id.lblStopwatch);
         switch (dayOfWeek) {
             case 1:
                 lblDay.setText("Sunday");
@@ -138,5 +136,12 @@ public class WorkoutPlanActivity extends AppCompatActivity {
     private void setImage() {
         imgLabel = "routine" + selectedDay + level;
         ((ImageView)findViewById(R.id.myZoomageView)).setImageResource(getApplicationContext().getResources().getIdentifier("drawable/"+imgLabel, null, this.getPackageName()));
+    }
+
+    public void openWorkout(View v) {
+        Intent intent = new Intent(this, WorkoutActivity.class);
+        intent.putExtra("imgLabel", imgLabel);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 }

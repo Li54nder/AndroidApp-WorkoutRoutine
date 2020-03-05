@@ -38,52 +38,58 @@
         android:id="@+id/lblBeginner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:gravity="center_horizontal"
+        android:onClick="setBeginner"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:text="Beginner"
         android:textColor="@color/colorWhite"
         android:textSize="18sp"
         app:fontFamily="sans-serif-light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title"
-        android:onClick="setBeginner"/>
+        app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <TextView
         android:id="@+id/lblMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:gravity="center_horizontal"
+        android:onClick="setMedium"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:text="Medium"
         android:textColor="@color/colorWhite"
         android:textSize="18sp"
         app:fontFamily="sans-serif-light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblBeginner"
-        android:onClick="setMedium"/>
+        app:layout_constraintTop_toBottomOf="@+id/lblBeginner" />
 
     <TextView
         android:id="@+id/lblExpert"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:gravity="center_horizontal"
+        android:onClick="setExpert"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:text="Expert"
         android:textColor="@color/colorWhite"
         android:textSize="18sp"
         app:fontFamily="sans-serif-light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblMedium"
-        android:onClick="setExpert" />
+        app:layout_constraintTop_toBottomOf="@+id/lblMedium" />
 
     <View
         android:id="@+id/divider_2"
         android:layout_width="0dp"
         android:layout_height="1.5dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/button_stroke"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

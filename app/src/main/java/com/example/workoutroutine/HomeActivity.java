@@ -16,6 +16,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 public class HomeActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 
     private String level = "_1";
@@ -32,13 +37,15 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_home);
 
+//        getQuoteOfDay(); // call from QUOTE button
+
         Animation a1 = AnimationUtils.loadAnimation(this, R.anim.show_1);
         Animation a2 = AnimationUtils.loadAnimation(this, R.anim.show_2);
         Animation a3 = AnimationUtils.loadAnimation(this, R.anim.show_3);
         Animation a4 = AnimationUtils.loadAnimation(this, R.anim.show_4);
-        Button btnChooseLvl = findViewById(R.id.btnChooseLvl);
+        Button btnChooseLvl = findViewById(R.id.btnStopwatch);
         Button btnChooseTime = findViewById(R.id.btnChooseTime);
-        lblLevel = findViewById(R.id.lblDay);
+        lblLevel = findViewById(R.id.lblStopwatch);
 
         findViewById(R.id.divider1).setAnimation(a1);
         findViewById(R.id.divider2).setAnimation(a1);
@@ -78,7 +85,7 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.custom_alert_dialog_level, null);
 
-        builder.setCancelable(false);
+        builder.setCancelable(true);
         builder.setView(dialogView);
 
         TextView beginner = dialogView.findViewById(R.id.lblBeginner);
@@ -128,5 +135,27 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
         intent.putExtra("level", level);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
+    private void getQuoteOfDay() {
+        try {
+            URL url = new URL("http://quotes.rest/qod.json?category=inspire&language=en");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/json");
+            if(conn.getResponseCode() != 200) {
+                throw new RuntimeException("Failed: HTTP error code: " + conn.getResponseCode());
+            }
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String output;
+            System.out.println("Output from Server: \n");
+            while((output = br.readLine()) != null) {
+                System.out.println(output);
+            }
+            conn.disconnect();
+        } catch (Exception e) {
+            // getOnePreDefined
+            e.printStackTrace();
+        }
     }
 }
