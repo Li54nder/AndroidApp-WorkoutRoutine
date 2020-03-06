@@ -121,7 +121,7 @@ public class WorkoutPlanActivity extends AppCompatActivity {
         Calendar c = Calendar.getInstance();
         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
         selectedDay = "_"+(dayOfWeek-1);
-        TextView lblDay = (TextView) findViewById(R.id.lblLevel);
+        TextView lblDay = (TextView) findViewById(R.id.lblDay);
         switch (dayOfWeek) {
             case 1:
                 lblDay.setText("Sunday");

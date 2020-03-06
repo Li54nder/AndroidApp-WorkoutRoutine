@@ -13,6 +13,8 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -39,7 +41,6 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
 
         initialisation();
         animation();
-//        getQuoteOfDay(); // call from QUOTE button
     }
 
     private void initialisation() {
@@ -74,12 +75,80 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
 
     public void translateClick(View v) {
         buttonTouchEffect(v);
-        //TODO:...
+        AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.custom_alert_dialog_rank, null);
+
+        builder.setCancelable(true);
+        builder.setView(dialogView);
+
+        ImageView btnCloseRank = dialogView.findViewById(R.id.btnCloseRank);
+
+        final AlertDialog dialog = builder.create();
+
+        btnCloseRank.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                alertButtonTOuchEffect(dialog, v);
+            }
+        });
+
+        dialog.show();
     }
 
     public void quoteClick(View v) {
         buttonTouchEffect(v);
-        //TODO:...
+        AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.custom_alert_dialog_more, null);
+
+        builder.setCancelable(true);
+        builder.setView(dialogView);
+
+        LinearLayout btnQuote = dialogView.findViewById(R.id.btnQuote);
+        LinearLayout btnInfo = dialogView.findViewById(R.id.btnInfo);
+        ImageView btnSrb = dialogView.findViewById(R.id.btnSrb);
+        ImageView btnEng = dialogView.findViewById(R.id.btnEng);
+
+        final AlertDialog dialog = builder.create();
+
+        btnQuote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO:Quote...
+                //getQuoteOfDay(); // call from QUOTE button
+                alertButtonTOuchEffect(dialog, v);
+            }
+        });
+
+        btnInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO:PopUp info...
+                alertButtonTOuchEffect(dialog, v);
+            }
+        });
+
+        btnSrb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO:Translate...
+                alertButtonTOuchEffect(dialog, v);
+            }
+        });
+
+        btnEng.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO:Translate...
+                alertButtonTOuchEffect(dialog, v);
+            }
+        });
+
+        dialog.show();
     }
 
     public void lvlChooserClick(View v) {
@@ -101,27 +170,27 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
         beginner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
                 lblLevel.setText("Beginner");
                 level = "_1";
+                alertButtonTOuchEffect(dialog, v);
             }
         });
 
         medium.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
                 lblLevel.setText("Medium");
                 level = "_2";
+                alertButtonTOuchEffect(dialog, v);
             }
         });
 
         expert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
                 lblLevel.setText("Expert");
                 level = "_3";
+                alertButtonTOuchEffect(dialog, v);
             }
         });
 
@@ -150,7 +219,21 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
 
     }
 
-
+    private void alertButtonTOuchEffect(AlertDialog dialog, View v) {
+        buttonTouchEffect(v);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    dialog.dismiss();
+                }
+            }
+        }).start();
+    }
 
     private void getQuoteOfDay() {
         try {
