@@ -13,11 +13,12 @@
         android:layout_width="0dp"
         android:layout_height="100dp"
         android:layout_marginTop="8dp"
-        android:onClick="goBack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo_450" />
+        app:srcCompat="@drawable/logo_450"
+
+        android:onClick="goBack"/>
 
     <TextView
         android:id="@+id/textView9"
@@ -117,6 +118,7 @@
         app:layout_constraintBottom_toTopOf="@+id/btnNegative"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+
         android:onClick="btnStopwatch"/>
 
     <Button
@@ -135,6 +137,7 @@
         app:layout_constraintEnd_toStartOf="@+id/btnPositive"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
+
         android:onClick="giveUp"/>
 
     <Button
@@ -154,17 +157,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btnNegative"
+
         android:onClick="startWorkout"/>
 
     <ImageView
         android:id="@+id/btnResetStopwatch"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:onClick="resetStopwatch"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/reset" />
+        app:srcCompat="@drawable/reset"
+
+        android:onClick="resetStopwatch"/>
 
     <ImageView
         android:id="@+id/btnOpenMusic"
@@ -173,7 +178,9 @@
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="@+id/myZoomageView"
         app:layout_constraintTop_toBottomOf="@+id/myZoomageView"
-        app:srcCompat="@drawable/music" />
+        app:srcCompat="@drawable/music"
+
+        android:onClick="openMusic" />
 
     <ImageView
         android:id="@+id/btnOpenYoutube"
@@ -182,6 +189,8 @@
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="@+id/myZoomageView"
         app:layout_constraintTop_toBottomOf="@+id/myZoomageView"
-        app:srcCompat="@drawable/youtube" />
+        app:srcCompat="@drawable/youtube"
+
+        android:onClick="openYoutube"  />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

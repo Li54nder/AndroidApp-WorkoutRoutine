@@ -44,7 +44,7 @@ public class WorkoutActivity extends AppCompatActivity {
 
     private void initialisation() {
         lblMilisec = findViewById(R.id.lblMilisec); //NEVER USED!!!
-        btnStopwatch = findViewById(R.id.btnLvlChooser);
+        btnStopwatch = findViewById(R.id.btnStopwatch);
         lblStopwatch = findViewById(R.id.lblStopwatch);
         lblStopwatch.setFormat("%s");
     }
@@ -54,6 +54,43 @@ public class WorkoutActivity extends AppCompatActivity {
     }
 
 
+    public void openMusic(View v) {
+        buttonTouchEffect(v);
+
+        //Or finally only..?
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(150);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    //***All logic goes here***//
+
+                }
+            }
+        }).start();
+    }
+
+    public void openYoutube(View v) {
+        buttonTouchEffect(v);
+
+        //Or finally only..?
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(150);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    //***All logic goes here***//
+
+                }
+            }
+        }).start();
+    }
 
     public void startWorkout(View v) {
         buttonTouchEffect(v);

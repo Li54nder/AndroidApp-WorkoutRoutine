@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,15 +26,14 @@ import java.net.URL;
 
 public class HomeActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 
-    private String level = "_1";
+    private Global global;
+//    private String level = "_1";
     private TextView lblLevel;
 
-    public String getLevel() {
-        return level;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        global = (Global) getApplicationContext();
         super.onCreate(savedInstanceState);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -45,6 +45,7 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
 
     private void initialisation() {
         lblLevel = findViewById(R.id.lblLevel);
+        ((TextView)findViewById(R.id.lblStepCounter)).setText(""+global.getSteps());
     }
 
     private void animation() {
@@ -73,7 +74,7 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
 
 
 
-    public void translateClick(View v) {
+    public void rankClick(View v) {
         buttonTouchEffect(v);
         AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
 
@@ -83,22 +84,47 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
         builder.setCancelable(true);
         builder.setView(dialogView);
 
-        ImageView btnCloseRank = dialogView.findViewById(R.id.btnCloseRank);
+        Button btnCloseRank = dialogView.findViewById(R.id.btnCloseRank);
+        ImageView imgRank = dialogView.findViewById(R.id.imgRank);
 
         final AlertDialog dialog = builder.create();
 
         btnCloseRank.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                alertButtonTOuchEffect(dialog, v);
+                alertButtonTouchEffect(dialog, v);
             }
         });
 
-        dialog.show();
+        imgRank.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buttonTouchEffect(v);
+            }
+        });
+
+        //Or show() only..?
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(150);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    //***Main Action***//
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            dialog.show();
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 
-    public void quoteClick(View v) {
+    public void moreClick(View v) {
         buttonTouchEffect(v);
         AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
 
@@ -112,6 +138,7 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
         LinearLayout btnInfo = dialogView.findViewById(R.id.btnInfo);
         ImageView btnSrb = dialogView.findViewById(R.id.btnSrb);
         ImageView btnEng = dialogView.findViewById(R.id.btnEng);
+        Button btnClose = dialogView.findViewById(R.id.btnCloseMore);
 
         final AlertDialog dialog = builder.create();
 
@@ -120,7 +147,7 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
             public void onClick(View v) {
                 //TODO:Quote...
                 //getQuoteOfDay(); // call from QUOTE button
-                alertButtonTOuchEffect(dialog, v);
+                alertButtonTouchEffect(dialog, v);
             }
         });
 
@@ -128,7 +155,7 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
             @Override
             public void onClick(View v) {
                 //TODO:PopUp info...
-                alertButtonTOuchEffect(dialog, v);
+                alertButtonTouchEffect(dialog, v);
             }
         });
 
@@ -136,7 +163,7 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
             @Override
             public void onClick(View v) {
                 //TODO:Translate...
-                alertButtonTOuchEffect(dialog, v);
+                buttonTouchEffect(v);
             }
         });
 
@@ -144,15 +171,42 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
             @Override
             public void onClick(View v) {
                 //TODO:Translate...
-                alertButtonTOuchEffect(dialog, v);
+                buttonTouchEffect(v);
             }
         });
 
-        dialog.show();
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                alertButtonTouchEffect(dialog, v);
+            }
+        });
+
+        //Or show() only..?
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(150);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    //***Main Action***//
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            dialog.show();
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 
     public void lvlChooserClick(View v) {
         buttonTouchEffect(v);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
 
         LayoutInflater inflater = getLayoutInflater();
@@ -171,8 +225,9 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
             @Override
             public void onClick(View v) {
                 lblLevel.setText("Beginner");
-                level = "_1";
-                alertButtonTOuchEffect(dialog, v);
+                global.setLevel(1);
+//                level = "_1";
+                alertButtonTouchEffect(dialog, v);
             }
         });
 
@@ -180,8 +235,9 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
             @Override
             public void onClick(View v) {
                 lblLevel.setText("Medium");
-                level = "_2";
-                alertButtonTOuchEffect(dialog, v);
+                global.setLevel(2);
+//                level = "_2";
+                alertButtonTouchEffect(dialog, v);
             }
         });
 
@@ -189,24 +245,58 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
             @Override
             public void onClick(View v) {
                 lblLevel.setText("Expert");
-                level = "_3";
-                alertButtonTOuchEffect(dialog, v);
+                global.setLevel(3);
+//                level = "_3";
+                alertButtonTouchEffect(dialog, v);
             }
         });
 
-        dialog.show();
+        //Or show() only..?
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(150);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    //***Main Action***//
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            dialog.show();
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 
     public void timeChooserClick(View v) {
         buttonTouchEffect(v);
         DialogFragment timePicker = new TimePickerFragment();
-        timePicker.show(getSupportFragmentManager(), "time picker");
+
+        //Or show() only..?
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(150);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    //***Main Action***//
+                    timePicker.show(getSupportFragmentManager(), "time picker");
+                }
+            }
+        }).start();
     }
 
     public void openWorkoutPlan(View v) {
         buttonTouchEffect(v);
         Intent intent = new Intent(this, WorkoutPlanActivity.class);
-        intent.putExtra("level", level);
+        intent.putExtra("level", "_"+global.getLevel());
+
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
@@ -219,13 +309,13 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
 
     }
 
-    private void alertButtonTOuchEffect(AlertDialog dialog, View v) {
+    private void alertButtonTouchEffect(AlertDialog dialog, View v) {
         buttonTouchEffect(v);
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(200);
+                    Thread.sleep(150);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {

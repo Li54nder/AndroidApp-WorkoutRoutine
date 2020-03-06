@@ -36,13 +36,13 @@
         app:layout_constraintTop_toTopOf="@id/divider_rank_1" />
 
     <ImageView
-        android:id="@+id/btnEng"
+        android:id="@+id/imgRank"
         android:layout_width="wrap_content"
-        android:layout_height="150dp"
+        android:layout_height="200dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lblRank"
-        app:srcCompat="@drawable/rank_1" />
+        app:srcCompat="@drawable/r1_cadet"/>
 
     <TextView
         android:id="@+id/lblRank"
@@ -53,8 +53,8 @@
         android:text="Cadet"
         android:textColor="@color/colorWhite"
         android:textSize="35sp"
-        app:layout_constraintEnd_toEndOf="@+id/btnEng"
-        app:layout_constraintStart_toStartOf="@+id/btnEng"
+        app:layout_constraintEnd_toEndOf="@+id/imgRank"
+        app:layout_constraintStart_toStartOf="@+id/imgRank"
         app:layout_constraintTop_toBottomOf="@+id/title_rank" />
 
     <LinearLayout
@@ -65,7 +65,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnEng">
+        app:layout_constraintTop_toBottomOf="@+id/imgRank">
 
         <TextView
             android:id="@+id/textView6"

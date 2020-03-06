@@ -60,9 +60,8 @@ public class WorkoutPlanActivity extends AppCompatActivity {
             day.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    dialog.dismiss();
                     String tmp = (String) day.getText();
-                    ((TextView)findViewById(R.id.lblLevel)).setText(tmp);
+                    ((TextView)findViewById(R.id.lblDay)).setText(tmp);
                     switch (tmp) {
                         case "Monday":
                             selectedDay = "_1";
@@ -87,11 +86,30 @@ public class WorkoutPlanActivity extends AppCompatActivity {
                             break;
                     }
                     setImage();
+                    alertButtonTouchEffect(dialog, v);
                 }
             });
         }
 
-        dialog.show();
+        //Or show() only..?
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(150);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    //***Main Action***//
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            dialog.show();
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 
     public void openWorkout(View v) {
@@ -112,6 +130,22 @@ public class WorkoutPlanActivity extends AppCompatActivity {
         set.addAnimation(AnimationUtils.loadAnimation(this, R.anim.click_anim_alpha));
         v.startAnimation(set);
 
+    }
+
+    private void alertButtonTouchEffect(AlertDialog dialog, View v) {
+        buttonTouchEffect(v);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(150);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    dialog.dismiss();
+                }
+            }
+        }).start();
     }
 
 

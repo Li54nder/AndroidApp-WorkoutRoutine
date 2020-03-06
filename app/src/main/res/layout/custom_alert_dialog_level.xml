@@ -40,7 +40,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:gravity="center_horizontal"
-        android:onClick="setBeginner"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:text="Beginner"
@@ -49,7 +48,7 @@
         app:fontFamily="sans-serif-light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title" />
+        app:layout_constraintTop_toBottomOf="@+id/title"/>
 
     <TextView
         android:id="@+id/lblMedium"
@@ -57,7 +56,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:gravity="center_horizontal"
-        android:onClick="setMedium"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:text="Medium"
@@ -74,7 +72,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:gravity="center_horizontal"
-        android:onClick="setExpert"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:text="Expert"
