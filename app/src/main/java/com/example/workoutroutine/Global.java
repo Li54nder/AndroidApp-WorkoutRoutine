@@ -16,12 +16,12 @@ public class Global extends Application {
 
     private static final String FILE_NAME = "data.txt";
 
-    private String rank = "Cadet";
-    private String alarm = "09:00";
-    private int points = 0;
-    private int steps = 16;
-    private int level = 1;
-    private boolean isDone = false;
+    private String rank = "Cadet"; //Cadet
+    private String alarm = "08:00"; //08:00
+    private int points = 0; //0
+    private int steps = 0; //0
+    private int level = 1; //1
+    private boolean isDone = false; //false
 
 
 
@@ -69,11 +69,16 @@ public class Global extends Application {
                 }
             }
         }
+        //***Parsing data***// //WORKS !!!
         String[] rows = data.split("\n");
-        if(rows.length == 3) {
-            rank = rows[0].split(":")[1];
-            points = Integer.parseInt(rows[1].split(":")[1]);
-            isDone = (rows[2].split(":")[1].equals("true"))? true : false;
+        if(rows.length == 6) {
+            this.rank = rows[0].split("=")[1];
+            this.alarm = rows[1].split("=")[1];
+            System.out.println(rows[2].split("=")[1]);
+            this.points = Integer.parseInt(rows[2].split("=")[1]);
+            this.steps = Integer.parseInt(rows[3].split("=")[1]);
+            this.level = Integer.parseInt(rows[4].split("=")[1]);
+            this.isDone = ((rows[5].split("=")[1]).equals("true"))? true : false;
         }
     }
 
@@ -104,18 +109,25 @@ public class Global extends Application {
         }
         //***Parsing data***//
         String[] rows = data.split("\n");
-        if(rows.length == 3) {
-            rank = rows[0].split(":")[1];
-            points = Integer.parseInt(rows[1].split(":")[1]);
-            isDone = (rows[2].split(":")[1].equals("true"))? true : false;
+        System.out.println("*********************************************************************** : " + rows.length);
+        if(rows.length == 6) {
+            this.rank = rows[0].split("=")[1];
+            this.alarm = rows[1].split("=")[1];
+            this.points = Integer.parseInt(rows[2].split("=")[1]);
+            this.steps = Integer.parseInt(rows[3].split("=")[1]);
+            this.level = Integer.parseInt(rows[4].split("=")[1]);
+            this.isDone = (rows[2].split("=")[5].equals("true"))? true : false;
         }
     }
 
     public void saveData() {
         String data = "" +
-                "rank:"+ rank +"\n"+
-                "points:"+ points +"\n"+
-                "isDone:"+ isDone;
+                "rank="+ rank +"\n" +
+                "alarm="+ alarm +"\n" +
+                "points="+ points +"\n" +
+                "steps="+steps +"\n" +
+                "level="+level +"\n" +
+                "isDone="+ isDone;
 
         FileOutputStream fos = null;
         try {
@@ -150,6 +162,16 @@ public class Global extends Application {
 
     public void setPoints(int points) {
         this.points = points;
+        if(points >= 2000)
+            this.rank = "Master";
+        else if(points >=1000)
+            this.rank = "General";
+        else if(points >= 500)
+            this.rank = "Governor";
+        else if(points >= 150)
+            this.rank = "Warrior";
+        else
+            this.rank = "Cadet";
         saveData();
     }
     public int getPoints() {

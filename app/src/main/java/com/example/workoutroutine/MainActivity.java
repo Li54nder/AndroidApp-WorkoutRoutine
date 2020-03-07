@@ -27,12 +27,9 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.textView2).setAnimation(bottomAnim);
         findViewById(R.id.imageView).setAnimation(topAnim);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startActivity(new Intent(MainActivity.this, HomeActivity.class));
-                finish();
-            }
+        new Handler().postDelayed(() -> {
+            startActivity(new Intent(MainActivity.this, HomeActivity.class));
+            finish();
         }, 2000);
     }
 }

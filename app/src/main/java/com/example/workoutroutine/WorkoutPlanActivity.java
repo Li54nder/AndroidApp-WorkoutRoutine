@@ -183,7 +183,7 @@ public class WorkoutPlanActivity extends AppCompatActivity {
 
     private void setImage() {
         imgLabel = "routine" + selectedDay + level;
-        ((ImageView)findViewById(R.id.myZoomageView)).setImageResource(getApplicationContext().getResources().getIdentifier("drawable/"+imgLabel, null, this.getPackageName()));
+        ((ImageView)findViewById(R.id.myZoomageView)).setImageResource(getApplicationContext().getResources().getIdentifier("mipmap/"+imgLabel, null, this.getPackageName()));
     }
 
 

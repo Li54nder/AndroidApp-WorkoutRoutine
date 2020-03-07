@@ -9,7 +9,7 @@
     android:padding="5dp">
 
     <View
-        android:id="@+id/divider_rank_1"
+        android:id="@+id/divider_1"
         android:layout_width="0dp"
         android:layout_height="1.5dp"
         android:background="@drawable/button_stroke"
@@ -18,81 +18,43 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/title_rank"
+        android:id="@+id/lblInfoTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginRight="16dp"
         android:gravity="center_horizontal"
-        android:text="Your current rank:"
-        android:textAllCaps="true"
+        android:text="About App:"
         android:textColor="@color/colorWhite"
         android:textSize="20sp"
         android:textStyle="bold"
         app:fontFamily="sans-serif-light"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/divider_rank_1" />
-
-    <ImageView
-        android:id="@+id/imgRank"
-        android:layout_width="wrap_content"
-        android:layout_height="200dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lblRank"
-        app:srcCompat="@drawable/r_cadet"/>
+        app:layout_constraintTop_toTopOf="@id/divider_1" />
 
     <TextView
-        android:id="@+id/lblRank"
-        android:layout_width="wrap_content"
+        android:id="@+id/lblInfoText"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:fontFamily="cursive"
-        android:text="Cadet"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="This app will help you to make workout routine. \nYou can choose the starting skill level. That will generate the nubmer of repetitions of the exercises. \nYou can also choose time for your daily reminder for workout. \n\nThis app alows you to gain points and ranks. Every successfully finished workout gives you 30 points and every skipped will take away 10 points. \n\nFuthermore, this App will offer you daily inspirnig quote. \n\nAnd finally, this app allows you to use stopwatch during your workout and allows playing your favorite songs on YouTube or on your Music Player."
         android:textColor="@color/colorWhite"
-        android:textSize="35sp"
-        app:layout_constraintEnd_toEndOf="@+id/imgRank"
-        app:layout_constraintStart_toStartOf="@+id/imgRank"
-        app:layout_constraintTop_toBottomOf="@+id/title_rank" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:orientation="horizontal"
+        android:textSize="18sp"
+        app:fontFamily="sans-serif-light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgRank">
-
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Points: "
-            android:textColor="@color/colorDirtyWhite"
-            android:textSize="20sp"
-            app:fontFamily="sans-serif-light" />
-
-        <Space
-            android:layout_width="5dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/lblPoints"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0/150"
-            android:textColor="@color/colorDirtyWhite"
-            android:textSize="20sp" />
-    </LinearLayout>
-
+        app:layout_constraintTop_toBottomOf="@+id/lblInfoTitle" />
 
     <Button
-        android:id="@+id/btnCloseRank"
+        android:id="@+id/btnCloseInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -100,9 +62,8 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
-        android:background="@drawable/button_stroke"
 
-        android:onClick="closeRank"
+        android:background="@drawable/button_stroke"
         android:text="Close"
         android:textAllCaps="false"
         android:textColor="@color/colorDirtyWhite"
@@ -110,16 +71,16 @@
         app:fontFamily="sans-serif-light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/lblInfoText" />
 
     <View
-        android:id="@+id/divider_rank_2"
+        android:id="@+id/divider_2"
         android:layout_width="0dp"
         android:layout_height="1.5dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/button_stroke"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnCloseRank" />
+        app:layout_constraintTop_toBottomOf="@+id/btnCloseInfo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

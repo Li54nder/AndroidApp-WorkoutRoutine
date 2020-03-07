@@ -72,15 +72,15 @@
         app:layout_constraintBottom_toBottomOf="@+id/textView3"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <View
-        android:id="@+id/divider2"
-        android:layout_width="0dp"
-        android:layout_height="1.5dp"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/button_stroke"
-        app:layout_constraintEnd_toEndOf="@+id/divider1"
-        app:layout_constraintStart_toStartOf="@+id/divider1"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+<!--    <View-->
+<!--        android:id="@+id/divider2"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="1.5dp"-->
+<!--        android:layout_marginTop="32dp"-->
+<!--        android:background="@drawable/button_stroke"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/divider1"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/divider1"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/textView3" />-->
 
     <TextView
         android:id="@+id/textView5"
@@ -92,7 +92,7 @@
         android:textSize="20sp"
         app:fontFamily="sans-serif-light"
         app:layout_constraintStart_toStartOf="@+id/textView3"
-        app:layout_constraintTop_toBottomOf="@+id/divider2" />
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <TextView
         android:id="@+id/lblLevel"
@@ -127,15 +127,15 @@
 
         android:onClick="lvlChooserClick"/>
 
-    <View
-        android:id="@+id/divider3"
-        android:layout_width="0dp"
-        android:layout_height="1.5dp"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/button_stroke"
-        app:layout_constraintEnd_toEndOf="@+id/divider2"
-        app:layout_constraintStart_toStartOf="@+id/divider2"
-        app:layout_constraintTop_toBottomOf="@+id/btnLvlChooser" />
+<!--    <View-->
+<!--        android:id="@+id/divider3"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="1.5dp"-->
+<!--        android:layout_marginTop="32dp"-->
+<!--        android:background="@drawable/button_stroke"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/divider2"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/divider2"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/btnLvlChooser" />-->
 
     <TextView
         android:id="@+id/textView11"
@@ -147,7 +147,7 @@
         android:textSize="20sp"
         app:fontFamily="sans-serif-light"
         app:layout_constraintStart_toStartOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/divider3" />
+        app:layout_constraintTop_toBottomOf="@+id/btnLvlChooser" />
 
     <TextView
         android:id="@+id/lblTime"
@@ -182,15 +182,15 @@
 
         android:onClick="timeChooserClick"/>
 
-    <View
-        android:id="@+id/divider4"
-        android:layout_width="0dp"
-        android:layout_height="1.5dp"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/button_stroke"
-        app:layout_constraintEnd_toEndOf="@+id/divider3"
-        app:layout_constraintStart_toStartOf="@+id/divider3"
-        app:layout_constraintTop_toBottomOf="@+id/btnTimeChooser" />
+<!--    <View-->
+<!--        android:id="@+id/divider4"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="1.5dp"-->
+<!--        android:layout_marginTop="32dp"-->
+<!--        android:background="@drawable/button_stroke"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/divider3"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/divider3"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/btnTimeChooser" />-->
 
     <Button
         android:id="@+id/btnWorkoutPlan"
@@ -199,6 +199,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginBottom="32dp"
         android:background="@drawable/button_solid"
+        android:onClick="openWorkoutPlan"
         android:text="Workout Plan"
         android:textAllCaps="false"
         android:textColor="@color/colorBlack"
@@ -206,12 +207,11 @@
         app:fontFamily="sans-serif-light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/btnTimeChooser"
+
         app:layout_constraintHeight_max="100dp"
         app:layout_constraintStart_toStartOf="@+id/btnTimeChooser"
-        app:layout_constraintTop_toBottomOf="@+id/divider4"
-        app:layout_constraintVertical_bias="1.0"
-
-        android:onClick="openWorkoutPlan"/>
+        app:layout_constraintTop_toBottomOf="@+id/btnTimeChooser"
+        app:layout_constraintVertical_bias="1.0" />
 
     <ImageView
         android:id="@+id/btnQuote"
