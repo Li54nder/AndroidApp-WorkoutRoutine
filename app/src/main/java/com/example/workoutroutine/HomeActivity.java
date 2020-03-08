@@ -81,6 +81,11 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
         });
     }
 
+    private void updateData() {
+        this.rank = global.getRank();
+        this.points = global.getPoints();
+    }
+
     private void animation() {
         //Animations for showing
         Animation a1 = AnimationUtils.loadAnimation(this, R.anim.show_1);
@@ -109,6 +114,8 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
 
     public void rankClick(View v) {
         buttonTouchEffect(v);
+        updateData();
+
         AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
 
         LayoutInflater inflater = getLayoutInflater();
@@ -130,6 +137,8 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
                                                 (this.points < 2000? "/2000" : "")))));
 
         final AlertDialog dialog = builder.create();
+        if(dialog.getWindow() != null)
+            dialog.getWindow().getAttributes().windowAnimations = R.style.SlidingDialogAnimation;
 
         btnCloseRank.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,6 +192,8 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
         Button btnClose = dialogView.findViewById(R.id.btnCloseMore);
 
         final AlertDialog dialog = builder.create();
+        if(dialog.getWindow() != null)
+            dialog.getWindow().getAttributes().windowAnimations = R.style.SlidingDialogAnimation;
 
         btnQuote.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,6 +213,8 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
 
                 quoteText.setText(getQuoteOfDay()); //REST NE RADI!!!
                 final AlertDialog dialog = builder.create();
+                if(dialog.getWindow() != null)
+                    dialog.getWindow().getAttributes().windowAnimations = R.style.SlidingDialogAnimation;
 
                 btnClose.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -253,6 +266,8 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
                     text.setJustificationMode(Layout.JUSTIFICATION_MODE_INTER_WORD);
 
                 final AlertDialog dialog = builder.create();
+                if(dialog.getWindow() != null)
+                    dialog.getWindow().getAttributes().windowAnimations = R.style.SlidingDialogAnimation;
 
                 btnClose.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -344,6 +359,8 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
         TextView expert = dialogView.findViewById(R.id.lblExpert);
 
         final AlertDialog dialog = builder.create();
+        if(dialog.getWindow() != null)
+            dialog.getWindow().getAttributes().windowAnimations = R.style.SlidingDialogAnimation;
 
         beginner.setOnClickListener(new View.OnClickListener() {
             @Override

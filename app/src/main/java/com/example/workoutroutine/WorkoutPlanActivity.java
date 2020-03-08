@@ -10,12 +10,16 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
 public class WorkoutPlanActivity extends AppCompatActivity {
+
+    private Global global;
 
     private String selectedDay;
     private String level;
@@ -23,6 +27,7 @@ public class WorkoutPlanActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        global = (Global) getApplicationContext();
         super.onCreate(savedInstanceState);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -55,6 +60,10 @@ public class WorkoutPlanActivity extends AppCompatActivity {
         };
 
         final AlertDialog dialog = builder.create();
+        if(dialog.getWindow() != null)
+            dialog.getWindow().getAttributes().windowAnimations = R.style.SlidingDialogAnimation;
+
+        Button btnWorkout = (Button) findViewById(R.id.btnWorkout);
 
         for(final TextView day : days) {
             day.setOnClickListener(new View.OnClickListener() {
@@ -65,24 +74,31 @@ public class WorkoutPlanActivity extends AppCompatActivity {
                     switch (tmp) {
                         case "Monday":
                             selectedDay = "_1";
+                            btnWorkout.setText("Do It\n-Full Body-");
                             break;
                         case "Tuesday":
                             selectedDay = "_2";
+                            btnWorkout.setText("Do It\n-Back-");
                             break;
                         case "Wednesday":
                             selectedDay = "_3";
+                            btnWorkout.setText("Do It\n-Upper Body-");
                             break;
                         case "Thursday":
                             selectedDay = "_4";
+                            btnWorkout.setText("Do It\n-ABS-");
                             break;
                         case "Friday":
                             selectedDay = "_5";
+                            btnWorkout.setText("Do It\n-Triceps-");
                             break;
                         case "Saturday":
                             selectedDay = "_6";
+                            btnWorkout.setText("Do It\n-Full Body-");
                             break;
                         case "Sunday":
                             selectedDay = "_7";
+                            btnWorkout.setText("Do It\n-Leg Day-");
                             break;
                     }
                     setImage();
@@ -114,13 +130,18 @@ public class WorkoutPlanActivity extends AppCompatActivity {
 
     public void openWorkout(View v) {
         buttonTouchEffect(v);
-        Intent intent = new Intent(this, WorkoutActivity.class);
-        intent.putExtra("imgLabel", imgLabel);
-        startActivity(intent);
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        if(!global.isDone() || true) { // **************************************************** do daljnjeg... (u ponoc restartovati isDone)
+            Intent intent = new Intent(this, WorkoutActivity.class);
+            intent.putExtra("imgLabel", imgLabel);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        } else {
+            Toast.makeText(getApplicationContext(), "You already have done workout for today!", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void goBack(View v) {
+        buttonTouchEffect(v);
         finish();
     }
 
@@ -156,27 +177,42 @@ public class WorkoutPlanActivity extends AppCompatActivity {
         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
         selectedDay = "_"+(dayOfWeek-1);
         TextView lblDay = (TextView) findViewById(R.id.lblDay);
+        Button btnWorkout = (Button) findViewById(R.id.btnWorkout);
         switch (dayOfWeek) {
             case 1:
                 lblDay.setText("Sunday");
+                selectedDay = "_7";
+                btnWorkout.setText("Do It\n-Leg Day-");
                 break;
             case 2:
                 lblDay.setText("Monday");
+                selectedDay = "_1";
+                btnWorkout.setText("Do It\n-Full Body-");
                 break;
             case 3:
                 lblDay.setText("Tuesday");
+                selectedDay = "_2";
+                btnWorkout.setText("Do It\n-Back-");
                 break;
             case 4:
                 lblDay.setText("Wednesday");
+                selectedDay = "_3";
+                btnWorkout.setText("Do It\n-Upper Body-");
                 break;
             case 5:
                 lblDay.setText("Thursday");
+                selectedDay = "_4";
+                btnWorkout.setText("Do It\n-ABS-");
                 break;
             case 6:
                 lblDay.setText("Friday");
+                selectedDay = "_5";
+                btnWorkout.setText("Do It\n-Triceps-");
                 break;
             case 7:
                 lblDay.setText("Saturday");
+                selectedDay = "_6";
+                btnWorkout.setText("Do It\n-Full Body-");
                 break;
         }
     }

@@ -28,74 +28,37 @@ public class Global extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        loadDataOnce();
+        loadData();
     }
 
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        loadDataOnce();
+        loadData();
     }
 
-    private void loadDataOnce() {
-        System.err.println("************************************************************** : LOADING START");
+    private void loadData() {
         String data = "";
-
         FileInputStream fis = null;
+
         try {
+
             fis = openFileInput(FILE_NAME);
+
             InputStreamReader reader = new InputStreamReader(fis);
             BufferedReader br = new BufferedReader(reader);
             StringBuilder stringBuilder = new StringBuilder();
+
             String text;
             while ((text = br.readLine()) != null) {
                 stringBuilder.append(text).append("\n");
             }
+
             data = stringBuilder.toString();
-            System.err.println("************************************************************** : LOADING DONE");
+
         } catch (FileNotFoundException e) {
-            System.err.println("************************************************************** : LOADING CRASHED");
-            System.err.println("************************************************************** : File created");
+            //Application started first time on pone, let's create file and save the initial data
             saveData();
-        } catch (IOException e) {
-            System.err.println("************************************************************** : LOADING BROCKEN");
-            System.err.println("************************************************************** : FILEN NOT CRATED");
-        } finally {
-            if (fis != null) {
-                try {
-                    fis.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        //***Parsing data***// //WORKS !!!
-        String[] rows = data.split("\n");
-        if(rows.length == 6) {
-            this.rank = rows[0].split("=")[1];
-            this.alarm = rows[1].split("=")[1];
-            System.out.println(rows[2].split("=")[1]);
-            this.points = Integer.parseInt(rows[2].split("=")[1]);
-            this.steps = Integer.parseInt(rows[3].split("=")[1]);
-            this.level = Integer.parseInt(rows[4].split("=")[1]);
-            this.isDone = ((rows[5].split("=")[1]).equals("true"))? true : false;
-        }
-    }
-
-    public void loadData() {
-        String data = "";
-
-        FileInputStream fis = null;
-        try {
-            fis = openFileInput(FILE_NAME);
-            InputStreamReader reader = new InputStreamReader(fis);
-            BufferedReader br = new BufferedReader(reader);
-            StringBuilder stringBuilder = new StringBuilder();
-            String text;
-            while((text = br.readLine()) != null) {
-                stringBuilder.append(text).append("\n");
-            }
-            data = stringBuilder.toString();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -107,16 +70,16 @@ public class Global extends Application {
                 }
             }
         }
-        //***Parsing data***//
+        //***Parsing Loaded Data***//
         String[] rows = data.split("\n");
-        System.out.println("*********************************************************************** : " + rows.length);
         if(rows.length == 6) {
             this.rank = rows[0].split("=")[1];
             this.alarm = rows[1].split("=")[1];
+            System.out.println(rows[2].split("=")[1]);
             this.points = Integer.parseInt(rows[2].split("=")[1]);
             this.steps = Integer.parseInt(rows[3].split("=")[1]);
             this.level = Integer.parseInt(rows[4].split("=")[1]);
-            this.isDone = (rows[2].split("=")[5].equals("true"))? true : false;
+            this.isDone = ((rows[5].split("=")[1]).equals("true"))? true : false;
         }
     }
 
@@ -144,10 +107,6 @@ public class Global extends Application {
         }
     }
 
-    public void setRank(String rank) {
-        this.rank = rank;
-        saveData();
-    }
     public String getRank() {
         return this.rank;
     }
