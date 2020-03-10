@@ -5,8 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import android.annotation.TargetApi;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -23,17 +30,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.Random;
 
-public class HomeActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
+public class HomeActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, SensorEventListener {
 
     private Global global;
     private TextView lblLevel;
+    private TextView lblStepCount;
     private String[] quotes = {
             "Push yourself, because no one else is going to do it for you.",
             "Sometimes later becomes never. Do it now.",
@@ -44,6 +54,7 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
     };
     private String rank;
     private int points;
+    private long steps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +68,29 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
         animation();
     }
 
+    private void startAlarmService(String time) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.HOUR_OF_DAY, Integer.parseInt(time.split(":")[0]));
+        c.set(Calendar.MINUTE, Integer.parseInt(time.split(":")[1])-1);
+        c.set(Calendar.SECOND, 30);
+
+        NotificationReceiver.AppContext = getApplicationContext();
+
+        Intent intent = new Intent(getApplicationContext(), NotificationReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+    }
+
     private void initialisation() {
         lblLevel = findViewById(R.id.lblLevel);
         lblLevel.setText((global.getLevel()==1)? "BEGINNER" : ((global.getLevel()==2)? "MEDIUM" : "EXPERT"));
-        ((TextView)findViewById(R.id.lblStepCounter)).setText(""+global.getSteps());
+        lblStepCount = (TextView)findViewById(R.id.lblStepCounter);
         TextView lblTime = findViewById(R.id.lblTime);
         this.rank = global.getRank();
         this.points = global.getPoints();
+        Button btnCounting = findViewById(R.id.btnServiceControl);
+
 
         lblTime.setText(global.getAlarm());
         lblTime.addTextChangedListener(new TextWatcher() {
@@ -74,11 +101,42 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 global.setAlarm(s.toString());
+                startAlarmService(s.toString());
             }
             @Override
             public void afterTextChanged(Editable s) {
             }
         });
+        if(global.isReminderStarted()) {
+            ((Button) findViewById(R.id.btnStartReminder)).setText("Restart reminder");
+        } else {
+            ((Button) findViewById(R.id.btnStartReminder)).setText("Start reminder");
+        }
+
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+
+//        if(global.getStartSteps() == 0) { //global.isRunning() ??????????????????????????????????????????????????????????
+//            lblStepCount.setText("0");
+//            btnCounting.setText("Start counting");
+//        } else {
+//            if(global.isRunning()) {
+//                //nastavlja
+//                startCounter();
+//            } else {
+//                //iz pocetka
+//
+//            }
+//            btnCounting.setText("Stop counting");
+//        }
+        intRunning = global.isRunning()? 1 : 0;
+
+        if(global.isRunning()) {
+            btnCounting.setText("Stop counting");
+            startCounter();
+        } else {
+            btnCounting.setText("Start counting");
+            lblStepCount.setText("0");
+        }
     }
 
     private void updateData() {
@@ -94,23 +152,31 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
         Animation a4 = AnimationUtils.loadAnimation(this, R.anim.show_4);
         //first showing
         findViewById(R.id.divider1).setAnimation(a1);
-//        findViewById(R.id.divider2).setAnimation(a1);
         findViewById(R.id.textView3).setAnimation(a1);
         findViewById(R.id.lblStepCounter).setAnimation(a1);
+        findViewById(R.id.btnServiceControl).setAnimation(a1);
         //second showing
-//        findViewById(R.id.divider3).setAnimation(a2);
         findViewById(R.id.textView5).setAnimation(a2);
         findViewById(R.id.lblLevel).setAnimation(a2);
         findViewById(R.id.btnLvlChooser).setAnimation(a2);
         //third showing
-//        findViewById(R.id.divider4).setAnimation(a3);
         findViewById(R.id.lblTime).setAnimation(a3);
         findViewById(R.id.textView11).setAnimation(a3);
+        findViewById(R.id.btnStartReminder).setAnimation(a3);
         findViewById(R.id.btnTimeChooser).setAnimation(a3);
+        //fourth showing
         findViewById(R.id.btnWorkoutPlan).setAnimation(a4);
     }
 
 
+
+    public void reminderClick(View v) {
+        Button tmp = (Button) v;
+        tmp.setText("Restart reminder");
+        startAlarmService(global.getAlarm());
+        global.setIsReminderStarted(true);
+        //handle restarting service//???
+    }
 
     public void rankClick(View v) {
         buttonTouchEffect(v);
@@ -410,6 +476,16 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
         }).start();
     }
 
+    public void controlService(View v) {
+        if(!running) { // || global.running()
+            ((Button)v).setText("Stop counting");
+            startCounter();
+        } else {
+            ((Button)v).setText("Start counting");
+            stopCounter();
+        }
+    }
+
     public void timeChooserClick(View v) {
         buttonTouchEffect(v);
         DialogFragment timePicker = new TimePickerFragment();
@@ -433,7 +509,6 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
     public void openWorkoutPlan(View v) {
         buttonTouchEffect(v);
         Intent intent = new Intent(this, WorkoutPlanActivity.class);
-        intent.putExtra("level", "_"+global.getLevel());
 
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -492,4 +567,74 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
         TextView lblTime = findViewById(R.id.lblTime);
         lblTime.setText((hourOfDay<10? "0"+hourOfDay : hourOfDay) + ":" + (minute<10? "0"+minute : minute));
     }
+
+
+
+    private SensorManager sensorManager;
+    private boolean running = false;
+    private int intRunning;
+    private long realSteps = 0;
+    private long startSteps = 0;
+
+    private void startCounter() {
+        super.onResume();
+        running = true;
+//        global.setRunning(running);
+        lblStepCount.setText("0");
+        Sensor countSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        if(countSensor != null) {
+            sensorManager.registerListener(this, countSensor, SensorManager.SENSOR_DELAY_UI);
+        } else {
+            Toast.makeText(this, "Sensor for Step Counter not found!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void stopCounter() {
+        super.onPause();
+        running = false;
+        global.setRunning(running);
+        global.setStartSteps(0);
+        intRunning = 0;
+//        global.setSteps(0);
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if(running) {
+            if(intRunning++ == 0) { // >
+                startSteps = (long) event.values[0];
+                global.setStartSteps(startSteps);
+            }
+            else {
+                if(global.isRunning())  {
+                    //RESUME...
+                    intRunning = 1;
+                    steps = (long) event.values[0] - global.getStartSteps();
+                    lblStepCount.setText(String.valueOf((long) (event.values[0] - global.getStartSteps())));
+
+                } else {
+                    //RESTART...
+                    intRunning = 1;
+                    steps = (long) event.values[0] - startSteps;
+                    lblStepCount.setText(String.valueOf((long) (event.values[0] - startSteps)));
+
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        //empty
+    }
+
+    @Override
+    protected void onDestroy() {
+        System.err.println("********************************* DESTROY ********************************************");
+        super.onDestroy();
+        global.setRunning(running);
+//        global.setSteps(steps);
+    }
+
+
 }

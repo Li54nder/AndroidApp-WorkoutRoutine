@@ -16,13 +16,15 @@ public class Global extends Application {
 
     private static final String FILE_NAME = "data.txt";
 
-    private String rank = "Cadet"; //Cadet
-    private String alarm = "08:00"; //08:00
-    private int points = 0; //0
-    private int steps = 0; //0
-    private int level = 1; //1
-    private boolean isDone = false; //false
-
+    private String rank = "Cadet";
+    private String alarm = "18:00";
+    private int points = 0;
+//    private long steps = 0;
+    private boolean running = false;
+    private long startSteps = 0;
+    private int level = 1;
+    private boolean isDone = false;
+    private boolean isReminderStarted = false;
 
 
     @Override
@@ -72,14 +74,17 @@ public class Global extends Application {
         }
         //***Parsing Loaded Data***//
         String[] rows = data.split("\n");
-        if(rows.length == 6) {
+        if(rows.length == 8) {
             this.rank = rows[0].split("=")[1];
             this.alarm = rows[1].split("=")[1];
             System.out.println(rows[2].split("=")[1]);
             this.points = Integer.parseInt(rows[2].split("=")[1]);
-            this.steps = Integer.parseInt(rows[3].split("=")[1]);
-            this.level = Integer.parseInt(rows[4].split("=")[1]);
-            this.isDone = ((rows[5].split("=")[1]).equals("true"))? true : false;
+//            this.steps = Integer.parseInt(rows[3].split("=")[1]);
+            this.running = ((rows[3].split("=")[1]).equals("true"))? true : false;
+            this.startSteps = Integer.parseInt(rows[4].split("=")[1]);
+            this.level = Integer.parseInt(rows[5].split("=")[1]);
+            this.isDone = ((rows[6].split("=")[1]).equals("true"))? true : false;
+            this.isReminderStarted = ((rows[7].split("=")[1]).equals("true"))? true : false;
         }
     }
 
@@ -88,9 +93,12 @@ public class Global extends Application {
                 "rank="+ rank +"\n" +
                 "alarm="+ alarm +"\n" +
                 "points="+ points +"\n" +
-                "steps="+steps +"\n" +
+//                "steps="+steps +"\n" +
+                "running="+running +"\n" +
+                "startSteps="+startSteps +"\n" +
                 "level="+level +"\n" +
-                "isDone="+ isDone;
+                "isDone="+ isDone +"\n" +
+                "isReminderStarted="+ isReminderStarted;
 
         FileOutputStream fos = null;
         try {
@@ -137,12 +145,28 @@ public class Global extends Application {
         return this.points;
     }
 
-    public void setSteps(int steps) {
-        this.steps = steps;
+//    public void setSteps(long steps) {
+//        this.steps = steps;
+//        saveData();
+//    }
+//    public long getSteps() {
+//        return this.steps;
+//    }
+
+    public void setRunning(boolean r) {
+        this.running = r;
         saveData();
     }
-    public int getSteps() {
-        return this.steps;
+    public boolean isRunning() {
+        return this.running;
+    }
+
+    public void setStartSteps(long steps) {
+        this.startSteps = steps;
+        saveData();
+    }
+    public long getStartSteps() {
+        return this.startSteps;
     }
 
     public void setLevel(int level) {
@@ -163,5 +187,13 @@ public class Global extends Application {
     }
     public boolean isDone() {
         return isDone;
+    }
+
+    public boolean isReminderStarted() {
+        return isReminderStarted;
+    }
+    public void setIsReminderStarted(boolean isStarted) {
+        isReminderStarted = isStarted;
+        saveData();
     }
 }

@@ -22,7 +22,6 @@ public class WorkoutPlanActivity extends AppCompatActivity {
     private Global global;
 
     private String selectedDay;
-    private String level;
     private String imgLabel;
 
     @Override
@@ -32,9 +31,6 @@ public class WorkoutPlanActivity extends AppCompatActivity {
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_workout_plan);
-
-        Intent intent = getIntent();
-        level = intent.getStringExtra("level");
 
         setSelectedDay();
         setImage();
@@ -130,13 +126,13 @@ public class WorkoutPlanActivity extends AppCompatActivity {
 
     public void openWorkout(View v) {
         buttonTouchEffect(v);
-        if(!global.isDone() || true) { // **************************************************** do daljnjeg... (u ponoc restartovati isDone)
+        if(!global.isDone()) {
             Intent intent = new Intent(this, WorkoutActivity.class);
             intent.putExtra("imgLabel", imgLabel);
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         } else {
-            Toast.makeText(getApplicationContext(), "You already have done workout for today!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "You already have done today's workout!\nWait until your Workout Alarm...", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -218,7 +214,7 @@ public class WorkoutPlanActivity extends AppCompatActivity {
     }
 
     private void setImage() {
-        imgLabel = "routine" + selectedDay + level;
+        imgLabel = "routine" + selectedDay + "_" + global.getLevel();
         ((ImageView)findViewById(R.id.myZoomageView)).setImageResource(getApplicationContext().getResources().getIdentifier("mipmap/"+imgLabel, null, this.getPackageName()));
     }
 
