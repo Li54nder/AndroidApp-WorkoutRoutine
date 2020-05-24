@@ -207,6 +207,7 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void reminderClick(View v) {
+        buttonTouchEffect(v);
         Button tmp = (Button) v;
         tmp.setText(R.string.restart_reminder);
         startAlarmService(global.getAlarm());
@@ -544,6 +545,7 @@ public class HomeActivity extends AppCompatActivity implements TimePickerDialog.
 
 
     public void controlService(View v) {
+        buttonTouchEffect(v);
         if(!running) { // || global.running()
             ((Button)v).setText(R.string.stopcounting);
             startCounter();
