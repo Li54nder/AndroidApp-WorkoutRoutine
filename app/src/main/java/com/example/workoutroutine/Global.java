@@ -19,7 +19,6 @@ public class Global extends Application {
     private String rank = "Cadet";
     private String alarm = "18:00";
     private int points = 0;
-//    private long steps = 0;
     private boolean running = false;
     private long startSteps = 0;
     private int level = 1;
@@ -44,7 +43,6 @@ public class Global extends Application {
         FileInputStream fis = null;
 
         try {
-
             fis = openFileInput(FILE_NAME);
 
             InputStreamReader reader = new InputStreamReader(fis);
@@ -72,20 +70,22 @@ public class Global extends Application {
                 }
             }
         }
-        //***Parsing Loaded Data***//
-        String[] rows = data.split("\n");
-        if(rows.length == 8) {
-            this.rank = rows[0].split("=")[1];
-            this.alarm = rows[1].split("=")[1];
-            System.out.println(rows[2].split("=")[1]);
-            this.points = Integer.parseInt(rows[2].split("=")[1]);
-//            this.steps = Integer.parseInt(rows[3].split("=")[1]);
-            this.running = ((rows[3].split("=")[1]).equals("true"))? true : false;
-            this.startSteps = Integer.parseInt(rows[4].split("=")[1]);
-            this.level = Integer.parseInt(rows[5].split("=")[1]);
-            this.isDone = ((rows[6].split("=")[1]).equals("true"))? true : false;
-            this.isReminderStarted = ((rows[7].split("=")[1]).equals("true"))? true : false;
-        }
+
+        parsingLoadedData(data.split("\n"));
+    }
+
+    private void parsingLoadedData(String[] rows) {
+        if(rows.length != 8)
+            return;
+        this.rank = rows[0].split("=")[1];
+        this.alarm = rows[1].split("=")[1];
+        System.out.println(rows[2].split("=")[1]);
+        this.points = Integer.parseInt(rows[2].split("=")[1]);
+        this.running = ((rows[3].split("=")[1]).equals("true"))? true : false;
+        this.startSteps = Integer.parseInt(rows[4].split("=")[1]);
+        this.level = Integer.parseInt(rows[5].split("=")[1]);
+        this.isDone = ((rows[6].split("=")[1]).equals("true"))? true : false;
+        this.isReminderStarted = ((rows[7].split("=")[1]).equals("true"))? true : false;
     }
 
     public void saveData() {
@@ -93,7 +93,6 @@ public class Global extends Application {
                 "rank="+ rank +"\n" +
                 "alarm="+ alarm +"\n" +
                 "points="+ points +"\n" +
-//                "steps="+steps +"\n" +
                 "running="+running +"\n" +
                 "startSteps="+startSteps +"\n" +
                 "level="+level +"\n" +
@@ -144,14 +143,6 @@ public class Global extends Application {
     public int getPoints() {
         return this.points;
     }
-
-//    public void setSteps(long steps) {
-//        this.steps = steps;
-//        saveData();
-//    }
-//    public long getSteps() {
-//        return this.steps;
-//    }
 
     public void setRunning(boolean r) {
         this.running = r;

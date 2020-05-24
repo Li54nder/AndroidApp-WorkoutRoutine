@@ -90,11 +90,9 @@ public class WorkoutActivity extends AppCompatActivity {
         ((ImageView)findViewById(R.id.myZoomageView)).setImageResource(getApplicationContext().getResources().getIdentifier("mipmap/"+imgLabel, null, this.getPackageName()));
     }
 
-
     public void openMusic(View v) {
         buttonTouchEffect(v);
 
-        //Or finally only..?
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -108,7 +106,7 @@ public class WorkoutActivity extends AppCompatActivity {
                         Intent intent = new Intent(MediaStore.INTENT_ACTION_MUSIC_PLAYER);
                         startActivity(intent);
                     } catch (Exception e) {
-                        Toast.makeText(getApplicationContext(), "You have not any music player instaled!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), R.string.musicPlayerAlert, Toast.LENGTH_LONG).show();
                     }
                 }
             }
@@ -118,7 +116,6 @@ public class WorkoutActivity extends AppCompatActivity {
     public void openYoutube(View v) {
         buttonTouchEffect(v);
 
-        //Or finally only..?
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -142,14 +139,15 @@ public class WorkoutActivity extends AppCompatActivity {
         }).start();
     }
 
+//  *** Workout Logic ***
     public void startWorkout(View v) {
         buttonTouchEffect(v);
         workoutStarted = true;
         loopCounter++;
         if(loopCounter < numOfLoops)
-            ((Button)v).setText("Next Cycle \n (cycle: "+loopCounter+" of "+numOfLoops+")");
+            ((Button)v).setText(getString(R.string.nextCycle)+loopCounter+getString(R.string.of)+numOfLoops+")");
         else if(loopCounter == numOfLoops)
-            ((Button) v).setText("Finish \n (cycle: " +loopCounter+ " of "+numOfLoops+")");
+            ((Button) v).setText(getString(R.string.finishCycle) +loopCounter+getString(R.string.of)+numOfLoops+")");
         else {
             ((Button) v).setBackgroundResource(R.drawable.button_solid_green);
 
@@ -177,7 +175,6 @@ public class WorkoutActivity extends AppCompatActivity {
                 }
             });
 
-            //Or show() only..?
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -235,7 +232,6 @@ public class WorkoutActivity extends AppCompatActivity {
             }
         });
 
-        //Or show() only..?
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -256,6 +252,7 @@ public class WorkoutActivity extends AppCompatActivity {
         }).start();
     }
 
+//  *** Touch Effects ***
     public void buttonTouchEffect(View v) {
         AnimationSet set = new AnimationSet(false);
         set.addAnimation(AnimationUtils.loadAnimation(this, R.anim.click_anim_scale));
@@ -263,7 +260,6 @@ public class WorkoutActivity extends AppCompatActivity {
         v.startAnimation(set);
 
     }
-
     private void alertButtonTouchEffect(AlertDialog dialog, View v) {
         buttonTouchEffect(v);
         new Thread(new Runnable() {
@@ -281,7 +277,6 @@ public class WorkoutActivity extends AppCompatActivity {
     }
 
 
-
     //**********************
     //STOPWATCH code: start
     private boolean running;
@@ -291,15 +286,15 @@ public class WorkoutActivity extends AppCompatActivity {
     public void btnStopwatch(View v) {
         buttonTouchEffect(v);
         if(!workoutStarted) {
-            Toast.makeText(getApplicationContext(), "You must start training first!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), R.string.startTraining, Toast.LENGTH_SHORT).show();
             return;
         }
         if((br = (br+1) % 2) != 0) {
             startStopwatch();
-            btnStopwatch.setText("Pause Stopwatch");
+            btnStopwatch.setText(R.string.pauseStopwatch);
         } else {
             pauseStopwatch();
-            btnStopwatch.setText("Resume Stopwatch");
+            btnStopwatch.setText(R.string.resumeStopwatch);
         }
     }
     private void startStopwatch() {
@@ -316,10 +311,9 @@ public class WorkoutActivity extends AppCompatActivity {
             running = false;
         }
     }
-
     public void resetStopwatch(View v) {
         buttonTouchEffect(v);
-        btnStopwatch.setText("Start Stopwatch");
+        btnStopwatch.setText(R.string.start_stopwatch);
         lblStopwatch.setBase(SystemClock.elapsedRealtime());
         lblStopwatch.stop();
         pauseOffset = 0;
@@ -327,7 +321,6 @@ public class WorkoutActivity extends AppCompatActivity {
     }
     //STOPWATCH code: end
     //**********************
-
 
 
     @Override
